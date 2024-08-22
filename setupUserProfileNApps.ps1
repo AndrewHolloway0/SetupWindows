@@ -18,16 +18,16 @@ choco install 7zip -y
 choco install dotnet-8.0-runtime -y
 # Optional Programs
 $webex = Read-Host "Install Webex? (y/N)"
-if($webex -like "y") { choco install webex-meetings -y }
 $googledrive = Read-Host "Install Google Drive? (y/N)"
-if($googledrive -like "y") { choco install googledrive -y }
 $treesize = Read-Host "Install TreeSize? (y/N)"
-if($treesize -like "y") { choco install treesizefree -y }
 $ipscan = Read-Host "Install IP Scanner? (y/N)"
-if($ipscan -like "y") { choco install advanced-ip-scanner -y }
 $gotomeeting = Read-Host "Install GoToMeeting? (y/N)"
-if($gotomeeting -like "y") { choco install gotomeeting -y }
 $gwsmo = Read-Host "Install GWSMO (Google Workspace for Outlook)? (y/N)"
+if($webex -like "y") { choco install webex-meetings -y }
+if($googledrive -like "y") { choco install googledrive -y }
+if($treesize -like "y") { choco install treesizefree -y }
+if($ipscan -like "y") { choco install advanced-ip-scanner -y }
+if($gotomeeting -like "y") { choco install gotomeeting -y }
 if($gwsmo -like "y") { choco install gsuite-sync-outlook -y }
 
 # Disable App Protections
@@ -46,5 +46,11 @@ choco install SetUserFTA -y #set install location? C:/temp
 cd "C:\ProgramData\chocolatey\lib\setuserfta\tools\SetUserFTA"
 SetUserFTA.exe pdf appid
 #mailto, msg, http, https, html, htm, pdf,
-
 # VivaldiHTM.RFV3KO7C2XXGW6YLORAWURBUAM - ProgID for Vivaldi Browser
+
+
+# Taskbar Alignment
+
+# Taskbar Pins
+
+# 
