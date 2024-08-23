@@ -1,3 +1,5 @@
+
+
 # Get Passed Params
 param (
   [string] $Client,
@@ -6,17 +8,22 @@ param (
 
 # Set Separator for script
 $banner = "`n-----------------------------------`n"
+Clear-Host
 
 # Self-elevate the script if required
+Write-Host "Elevating Script..."
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
   if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
     $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
     Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
     Exit
   }
+} else {
+    Write-Host "Script already running as Administrator"
 }
 
 # Install Chocolatey
+Write-Host "Installing application manager (Chocolatey)..."
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
 # Clear the screen
@@ -59,6 +66,7 @@ if(!$noInterrupt) { # If -NoInterrupt was not provided
 
 # Install Applications
 Write-Host $banner
+Write-Host "Application installation starts..."
 foreach ($item in $chosenApps) { # Loop through every item in $chosenApps
     $switch = if($item -eq "googlechrome") { " --ignore-checksums" } # If Google Chrome is being installed, add "--ignore-checksums". Error in choco has old checksum.
     Write-Host "Installing $item!" -foregroundcolor "yellow" # Print to screen
@@ -74,21 +82,21 @@ Write-Host "ScreenConnect Installed! - Find this device under the 'No Company' t
 
 
 # Install Chrome Extentions -#- IN PROGRESS DOES NOT WORK
-$chromeExtList = @{ # Chrome Extention IDs
-    "Keeper" = "bfogiafebfohielmmehodmfbbebbbpei";
-}
-$chromeExtRegKey = "HKLM:\Software\Policies\Google\Chrome\ExtensionInstallForcelist"
-foreach($extention in $chromeExtList) {
-    $extentionName = $extention.keys;
-    # Write-Host @($appCollection.values)[$extentionName]
-    # Write-Host $appCollection.values
-    Write-Host $appCollection[$extentionName]
-    Write-Host $appCollection[$extentionName][1] "is in ($chosenApps)"
-    if($chosenApps -contains $appCollection[$extentionName]) {
-        # Set-ItemProperty -Path $chromeExtRegKey -Name '1' -Type 'REG_SZ' -Value $extention.values
-        Write-Host "Adding" $extention.keys "to Chrome"
-    }
-}
+# $chromeExtList = @{ # Chrome Extention IDs
+#     "Keeper" = "bfogiafebfohielmmehodmfbbebbbpei";
+# }
+# $chromeExtRegKey = "HKLM:\Software\Policies\Google\Chrome\ExtensionInstallForcelist"
+# foreach($extention in $chromeExtList) {
+#     $extentionName = $extention.keys;
+#     # Write-Host @($appCollection.values)[$extentionName]
+#     # Write-Host $appCollection.values
+#     Write-Host $appCollection[$extentionName]
+#     Write-Host $appCollection[$extentionName][1] "is in ($chosenApps)"
+#     if($chosenApps -contains $appCollection[$extentionName]) {
+#         # Set-ItemProperty -Path $chromeExtRegKey -Name '1' -Type 'REG_SZ' -Value $extention.values
+#         Write-Host "Adding" $extention.keys "to Chrome"
+#     }
+# }
 
 # loop through chosenApps
 # use appCollection to reverse the name to ID | $appCollection[$extentionName]

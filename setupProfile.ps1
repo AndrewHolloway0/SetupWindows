@@ -53,16 +53,23 @@ $taskbarPinXML = '<?xml version="1.0" encoding="utf-8"?>
         <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer" />
     </defaultlayout:TaskbarLayout>
  </CustomTaskbarLayoutCollection>
-</LayoutModificationTemplate>'
+</LayoutModificationTemplate>' > "C:\Windows\OEM\TaskbarLayoutModification.xml"
+
+# New-Item -Path "C:\Windows\OEM\"
+# Out-File -FilePath "C:\Windows\OEM\TaskbarLayoutModification.xml" -InputObject $taskbarPinXML
+
+# cmd /c reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\ /v LayoutXMLPath /d C:\Windows\OEM\TaskbarLayoutModification.xml
 
 # Sleep settings - Integer equals minutes
 Powercfg /Change monitor-timeout-ac 45 # Set screen timeout on wall-power
 Powercfg /Change monitor-timeout-dc 20 # Set screen timeout on battery
 Powercfg /Change standby-timeout-ac 0 # Set device sleep on wall-power
 Powercfg /Change standby-timeout-dc 60 # Set device sleep on battery
+Write-Host "Sleep and Screen Timeout Settings Set" -ForegroundColor Green
 
 # System Locale
 Set-WinSystemLocale en-AU
+Write-Host "System Locale Set" -ForegroundColor Green
 
 # Keyboard Layout
 $LangList = Get-WinUserLanguageList # Get current list of installed languages
