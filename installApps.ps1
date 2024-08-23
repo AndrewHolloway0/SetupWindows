@@ -1,3 +1,5 @@
+$host.ui.RawUI.WindowTitle = "App Installations"
+
 # Get Passed Params
 param (
   [string] $Client,

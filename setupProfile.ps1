@@ -1,3 +1,5 @@
+$host.ui.RawUI.WindowTitle = "Profile Setup"
+
 # Get Any Params
 param (
   [string] $Client,
