@@ -4,14 +4,28 @@ param (
   [switch] $noInterrupt
 )
 
+$greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
+
+# Set Separator for script
+$banner = "`n-----------------------------------`n"
+Clear-Host
+
 # Self-elevate the script if required
+Write-Host "Elevating Script..."
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
   if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
     $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
     Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
     Exit
   }
+} else {
+  Write-Host "Script already running as Administrator"
 }
+
+# Install Chocolatey
+Write-Host "Installing application manager (Chocolatey)..."
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
 
 # Disable App Protections
 # New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\UCPD" -Name "Start" -Value 4 -PropertyType DWORD -Force
@@ -26,17 +40,25 @@ $extPdfVal = Get-StartApps | Where-Object -Property Name -like "Adobe Reader" | 
 #Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Shell\Associations\UrlAssociations\https\UserChoice" -Name ProgId -Value $extHttpVal
 
 choco install SetUserFTA -y #set install location? C:/temp
+
+# Clear the screen
+Clear-Host
+
+
 cd "C:\ProgramData\chocolatey\lib\setuserfta\tools\SetUserFTA"
 SetUserFTA.exe pdf appid
+Write-Host "$greenCheck Default Apps Set"
 #mailto, msg, http, https, html, htm, pdf,
 # VivaldiHTM.RFV3KO7C2XXGW6YLORAWURBUAM - ProgID for Vivaldi Browser
 
 
 # Taskbar Alignment to Left
 Set-ItemProperty -Path HKCU:\software\microsoft\windows\currentversion\explorer\advanced -Name 'TaskbarAl' -Type 'DWord' -Value 0
+Write-Host "$greenCheck Taskbar Alignment Set"
 
-# Taskbar search to small
+# Taskbar searchbar to small
 Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -Name 'SearchboxTaskbarMode' -Type 'DWord' -Value 1
+Write-Host "$greenCheck Taskbar Searchbar Size Set"
 
 # Taskbar Pins - https://learn.microsoft.com/en-us/windows/configuration/taskbar/pinned-apps
 $taskbarPinXML = '<?xml version="1.0" encoding="utf-8"?>
@@ -53,7 +75,7 @@ $taskbarPinXML = '<?xml version="1.0" encoding="utf-8"?>
         <taskbar:DesktopApp DesktopApplicationID="Microsoft.Windows.Explorer" />
     </defaultlayout:TaskbarLayout>
  </CustomTaskbarLayoutCollection>
-</LayoutModificationTemplate>' > "C:\Windows\OEM\TaskbarLayoutModification.xml"
+</LayoutModificationTemplate>'
 
 # New-Item -Path "C:\Windows\OEM\"
 # Out-File -FilePath "C:\Windows\OEM\TaskbarLayoutModification.xml" -InputObject $taskbarPinXML
@@ -65,21 +87,23 @@ Powercfg /Change monitor-timeout-ac 45 # Set screen timeout on wall-power
 Powercfg /Change monitor-timeout-dc 20 # Set screen timeout on battery
 Powercfg /Change standby-timeout-ac 0 # Set device sleep on wall-power
 Powercfg /Change standby-timeout-dc 60 # Set device sleep on battery
-Write-Host "Sleep and Screen Timeout Settings Set" -ForegroundColor Green
+Write-Host "$greenCheck Sleep and Screen Timeout Settings Set" -ForegroundColor Green
 
 # System Locale
 Set-WinSystemLocale en-AU
-Write-Host "System Locale Set" -ForegroundColor Green
+Write-Host "$greenCheck System Locale Set" -ForegroundColor Green
 
 # Keyboard Layout
 $LangList = Get-WinUserLanguageList # Get current list of installed languages
 $LangList.Add("en-AU") # Install en-US Keyboard layout
 $MarkedLang = $LangList | Where-Object LanguageTag -notlike "*en-AU*" # Find all other Language Keyboards
-$LangList.Remove($MarkedLang) # Remove all other Language Keyboards
+$LangList.Remove($MarkedLang) | Out-Null # Remove all other Language Keyboards
 Set-WinUserLanguageList $LangList -Force # Activate keyboard changes
+Write-Host "$greenCheck Keyboard Layout Set"
 
-# Date n Time (regular)
+# Timezone (regular)
 tzutil /s "W. Australia Standard Time" # Set timezone to GMT+0800
+Write-Host "$greenCheck Timezone Set"
 
 # Date n Time format
 $culture = Get-Culture

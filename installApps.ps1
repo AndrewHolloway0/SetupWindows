@@ -1,10 +1,10 @@
-
-
 # Get Passed Params
 param (
   [string] $Client,
   [switch] $noInterrupt
 )
+
+$greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
 
 # Set Separator for script
 $banner = "`n-----------------------------------`n"
@@ -78,7 +78,7 @@ $SCdomain = .\SCdomain.ps1 # Get Domain URL
 Write-Host "Installing ScreenConnect!" -ForegroundColor yellow
 curl "https://$SCdomain/Bin/ScreenConnect.ClientSetup.exe?e=Access&y=Guest" -o "$env:userprofile\Downloads\screenconnect.clientsetup.exe"
 Start-Process "$env:userprofile\Downloads\screenconnect.clientsetup.exe"
-Write-Host "ScreenConnect Installed! - Find this device under the 'No Company' tab!" -ForegroundColor Green
+Write-Host "$greenCheck ScreenConnect Installed! - Find this device under the 'No Company' tab!" -ForegroundColor Green
 
 
 # Install Chrome Extentions -#- IN PROGRESS DOES NOT WORK
