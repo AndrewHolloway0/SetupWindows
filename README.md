@@ -1,4 +1,6 @@
 # Prerequisites
-You will need to enable running untrusted scripts on your system. Run the following command before continuing.
+You may not be able to run the script directly on the system due to your Execution Policy.
 
-`Set-ExecutionPolicy -ExecutionPolicy Bypass`
+Running the script requires running the following in a CMD window.
+
+`powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1`

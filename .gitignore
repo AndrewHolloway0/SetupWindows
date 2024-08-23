@@ -1,6 +1,10 @@
 # Prerequisites
 *.d
 
+# Private dependancies
+clientCollection.ps1
+SCdomain.ps1
+
 # Object files
 *.o
 *.ko
