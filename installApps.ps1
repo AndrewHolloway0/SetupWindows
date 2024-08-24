@@ -2,7 +2,7 @@ $host.ui.RawUI.WindowTitle = "App Installations"
 
 # Get Passed Params
 param (
-  [string] $Client,
+  [string] $AppSet,
   [switch] $noInterrupt
 )
 
@@ -35,7 +35,7 @@ Clear-Host
 $chosenApps = 'adobereader','googlechrome','firefox','7zip','dotnet-8.0-runtime','treesizefree','imageresizerapp','seamonkey','microsoft-teams-new-bootstrapper', 'sysinternals'
 
 # List of optional applications
-$appCollection = @{ # [App Title] = [Chocolatey-Package-ID]
+$optAppCollection = @{ # [App Title] = [Chocolatey-Package-ID]
     "Webex" = "webex-meetings";
     "Keeper" = "keeper";
     "Zoom" = "zoom";
@@ -49,19 +49,19 @@ $appCollection = @{ # [App Title] = [Chocolatey-Package-ID]
 }
 
 # Client List with required App Options - Format: @{ "[Client Name]" = "[App Title]" }
-$clientCollection = .\clientCollection.ps1
+$appCollection = .\appCollection.ps1
 
 # Manage App Installation Choices
-if($Client -and @($clientCollection.keys) -contains $Client) { # if -Client was provided AND -Client value is a valid option contained within $clientCollection
-    foreach ($app in $clientCollection.$Client) { # Loop through -Client applications
-        $chosenApps += $appCollection.$app # Add associated app Chocolatey-Package-ID to $chosenApps
+if($AppSet -and @($appCollection.keys) -contains $AppSet) { # if -AppSet was provided AND -AppSet value is a valid option contained within $appCollection
+    foreach ($app in $appCollection.$Client) { # Loop through -AppSet applications
+        $chosenApps += $optAppCollection.$app # Add associated app Chocolatey-Package-ID to $chosenApps
     }
 }
 if(!$noInterrupt) { # If -NoInterrupt was not provided
-    for ($i=0; $i -lt $appCollection.count; $i++) { # Loop through all app options
-        if($chosenApps -notcontains @($appCollection.values)[$i]) { # Confirm app is not already in $chosenApps
-            $installApp = Read-Host "Install" @($appCollection.keys)[$i]"? (Y/n)" # Ask operator to confirm install
-            if ($installApp -like "y") { $chosenApps += @($appCollection.values)[$i] } # Add app to $chosenApps if response was yes
+    for ($i=0; $i -lt $optAppCollection.count; $i++) { # Loop through all app options
+        if($chosenApps -notcontains @($optAppCollection.values)[$i]) { # Confirm app is not already in $chosenApps
+            $installApp = Read-Host "Install" @($optAppCollection.keys)[$i]"? (Y/n)" # Ask operator to confirm install
+            if ($installApp -like "y") { $chosenApps += @($optAppCollection.values)[$i] } # Add app to $chosenApps if response was yes
         }
     }
 }
@@ -90,22 +90,22 @@ Write-Host "$greenCheck ScreenConnect Installed! - Find this device under the 'N
 # $chromeExtRegKey = "HKLM:\Software\Policies\Google\Chrome\ExtensionInstallForcelist"
 # foreach($extention in $chromeExtList) {
 #     $extentionName = $extention.keys;
-#     # Write-Host @($appCollection.values)[$extentionName]
-#     # Write-Host $appCollection.values
-#     Write-Host $appCollection[$extentionName]
-#     Write-Host $appCollection[$extentionName][1] "is in ($chosenApps)"
-#     if($chosenApps -contains $appCollection[$extentionName]) {
+#     # Write-Host @($optAppCollection.values)[$extentionName]
+#     # Write-Host $optAppCollection.values
+#     Write-Host $optAppCollection[$extentionName]
+#     Write-Host $optAppCollection[$extentionName][1] "is in ($chosenApps)"
+#     if($chosenApps -contains $optAppCollection[$extentionName]) {
 #         # Set-ItemProperty -Path $chromeExtRegKey -Name '1' -Type 'REG_SZ' -Value $extention.values
 #         Write-Host "Adding" $extention.keys "to Chrome"
 #     }
 # }
 
 # loop through chosenApps
-# use appCollection to reverse the name to ID | $appCollection[$extentionName]
+# use optAppCollection to reverse the name to ID | $optAppCollection[$extentionName]
 # if selectedApp is in chromeExtList
 # install extention
 
 # loop through google extentions
-# use appCollection to reverse the Name to ID | $appCollection[$extentionName]
+# use optAppCollection to reverse the Name to ID | $optAppCollection[$extentionName]
 # if selectedApp is in chromeExtList
 # install extention

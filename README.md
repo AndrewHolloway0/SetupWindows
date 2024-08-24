@@ -22,7 +22,7 @@ powershell -noexit -ExecutionPolicy Bypass -File setupProfile.ps1
 ```
 
 ## Full Automation
-The scripts accept two optional switch parameters which allow setting up 'sets' of programs to install and not asking the operator to confirm installation. They are `-Client` and `-NoInterrupt` respectively.
+The scripts accept two optional switch parameters which allow setting up 'sets' of programs to install and not asking the operator to confirm installation. They are `-AppSet` and `-NoInterrupt` respectively.
 
 You can run the following command to install basic applications without prompting for the optional programs.
 
@@ -33,7 +33,7 @@ powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -NoInterrupt
 Alternatively, you can run the following to install basic applications, plus CustomSet1 (defined in the `clientCollection.ps1` file), without interruptions.
 
 ```batch
-powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -NoInterrupt -Client CustomSet1
+powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -NoInterrupt -AppSet CustomSet1
 ```
 
 ### Creating a Custom Application Set
