@@ -1,5 +1,5 @@
 # Lets Skip the Boring Bit! 🤪
-This is a collection of Windows scripts to make it wasy to setup Windows. This includes application installation, taskbar settings, start menu changes, locale settings, default applications, and more coming soon!
+This is a collection of Windows scripts to make it easy to setup Windows. This includes application installation, taskbar settings, start menu changes, locale settings, default applications, and more coming soon!
 
 ## Prerequisites
 You may not be able to run the `.ps1` script directly on the system due to your Execution Policy. You can run the `start.bat` file making it easy begin. It'll only run the `installApps.ps1` script by default.
