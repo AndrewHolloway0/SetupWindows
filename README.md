@@ -30,14 +30,14 @@ You can run the following command to install basic applications without promptin
 powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -NoInterrupt
 ```
 
-Alternatively, you can run the following to install basic applications, plus CustomSet1 (defined in the `clientCollection.ps1` file), without interruptions.
+Alternatively, you can run the following to install basic applications, plus CustomSet1 (defined in the `appCollection.ps1` file), without interruptions.
 
 ```batch
 powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -NoInterrupt -AppSet CustomSet1
 ```
 
 ### Creating a Custom Application Set
-Sets of optional applications are defined in the `clientCollection.ps1` file. This file must be placed in the same root directory as the `installApps.ps1` script is being run. The format of the file must be a valid [Hash Table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.4).
+Sets of optional applications are defined in the `appCollection.ps1` file. This file must be placed in the same root directory as the `installApps.ps1` script is being run. The format of the file must be a valid [Hash Table](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_hash_tables?view=powershell-7.4).
 
 ### Defining Applications
 Application names and associated chocolatey package names are located in the `installApps.ps1` script. Simply add additional line or two with optional packages, the script will then ask if you want to install it on the next execution.

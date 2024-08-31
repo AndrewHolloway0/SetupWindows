@@ -1,12 +1,13 @@
-$host.ui.RawUI.WindowTitle = "Profile Setup"
-
 # Get Any Params
 param (
   [string] $AppSet,
   [switch] $noInterrupt
 )
-
+  
 $greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
+
+# Set Window Title
+$host.ui.RawUI.WindowTitle = "Profile Setup"
 
 # Set Separator for script
 $banner = "`n-----------------------------------`n"
@@ -111,3 +112,7 @@ Write-Host "$greenCheck Timezone Set"
 $culture = Get-Culture
 $culture.DateTimeFormat.ShortDatePattern = 'dd/MM/yyyy'
 Set-Culture $culture
+
+# Set Windows 11 Start Layout to include More Pins - Set to 0 for default, 1 for more pins, 2 for more recommendations
+Set-ItemProperty -Path  HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name 'Start_Layout' -Type 'DWord' -Value 1
+

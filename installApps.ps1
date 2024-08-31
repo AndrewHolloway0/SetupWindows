@@ -1,5 +1,3 @@
-$host.ui.RawUI.WindowTitle = "App Installations"
-
 # Get Passed Params
 param (
   [string] $AppSet,
@@ -7,6 +5,9 @@ param (
 )
 
 $greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
+
+# Set Window Title
+$host.ui.RawUI.WindowTitle = "App Installations"
 
 # Set Separator for script
 $banner = "`n-----------------------------------`n"
@@ -101,11 +102,11 @@ Write-Host "$greenCheck ScreenConnect Installed! - Find this device under the 'N
 # }
 
 # loop through chosenApps
-# use optAppCollection to reverse the name to ID | $optAppCollection[$extentionName]
+# use optAppCollection to reverse the name to ID - $optAppCollection | Where-Object { $_.Keys -eq $extentionName }
 # if selectedApp is in chromeExtList
 # install extention
 
 # loop through google extentions
-# use optAppCollection to reverse the Name to ID | $optAppCollection[$extentionName]
+# use optAppCollection to reverse the Name to ID - $optAppCollection[$extentionName]
 # if selectedApp is in chromeExtList
 # install extention
