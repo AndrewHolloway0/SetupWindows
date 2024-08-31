@@ -116,3 +116,5 @@ Set-Culture $culture
 # Set Windows 11 Start Layout to include More Pins - Set to 0 for default, 1 for more pins, 2 for more recommendations
 Set-ItemProperty -Path  HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name 'Start_Layout' -Type 'DWord' -Value 1
 
+# Enable showing File Extentions in Explorer
+Set-ItemProperty -Path  HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name 'HideFileExt' -Type 'DWord' -Value 0
