@@ -1,3 +1,3 @@
-set ClientName=tempclient
-start powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -Client %ClientName% -NoInterrupt
-start powershell -noexit -ExecutionPolicy Bypass -File setupProfile.ps1 -Client %ClientName% -NoInterrupt
+set AppSetName=CustomSet2
+start powershell -noexit -ExecutionPolicy Bypass -File installApps.ps1 -Client %AppSetName% -NoInterrupt
+start powershell -noexit -ExecutionPolicy Bypass -File setupProfile.ps1 -Client %AppSetName% -NoInterrupt

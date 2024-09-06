@@ -3,7 +3,7 @@ param (
   [string] $AppSet,
   [switch] $noInterrupt
 )
-  
+
 $greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
 
 # Set Window Title
@@ -118,3 +118,4 @@ Set-ItemProperty -Path  HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 
 # Enable showing File Extentions in Explorer
 Set-ItemProperty -Path  HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name 'HideFileExt' -Type 'DWord' -Value 0
+
