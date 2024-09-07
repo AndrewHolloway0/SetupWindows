@@ -5,7 +5,7 @@ param (
 )
 
 # Set Script Icons
-$greenCheck = "$([char]0x1b)[92m$([char]8730) $([char]0x1b)[91x"
+$greenCheck = "$([char]8730)"
 
 # Set Window Title
 $host.ui.RawUI.WindowTitle = "PC Setup Script - Script by Andrew Holloway"
@@ -35,7 +35,7 @@ Start-Transcript -Path $outputLocation
 # Advise user of output file and allow choosing to run apps
 Write-Host $banner
 Write-Host "System wide changes will apply..."
-$continueWithApps = Read-Host "Install apps as well? (Y/n)" | Write-Host
+$continueWithProfSettings = Read-Host "Set profile settings as well? (Y/n)"
 
 # Sleep settings - Integer equals minutes
 Powercfg /Change monitor-timeout-ac 45 # Set screen timeout on wall-power
@@ -46,12 +46,19 @@ Write-Host "$greenCheck Sleep and Screen Timeout Settings Set" -ForegroundColor 
 
 # Taskbar Alignment to Left
 Set-ItemProperty -Path HKCU:\software\microsoft\windows\currentversion\explorer\advanced -Name 'TaskbarAl' -Type 'DWord' -Value 0
-Write-Host "$greenCheck Taskbar Alignment Set"
+Write-Host "$greenCheck Taskbar Alignment Set" -ForegroundColor Green
 
 # Taskbar searchbar to small
 Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -Name 'SearchboxTaskbarMode' -Type 'DWord' -Value 1
-Write-Host "$greenCheck Taskbar Searchbar Size Set"
+Write-Host "$greenCheck Taskbar Searchbar Size Set" -ForegroundColor Green
 
+# Check if user is 
+if($continueWithProfSettings -like "n" || !$noInterrupt) {
+    Write-Host "Installing apps was not selected. Terminating."
+    Return 0
+}
+
+Write-Host "Setting profile settings"
 
 Stop-Transcript
 pause
